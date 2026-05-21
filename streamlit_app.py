@@ -1,31 +1,48 @@
 import streamlit as st
+import google.generativeai as genai
 
-st.title("Automatic Resume Medis")
+# API KEY
+genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
+
+# MODEL
+model = genai.GenerativeModel("gemini-1.5-flash")
+
+# UI
+st.title("AI Resume Medis")
 
 nama = st.text_input("Nama Pasien")
 umur = st.number_input("Umur", 0, 120)
-jk = st.selectbox("Jenis Kelamin", ["Laki-laki", "Perempuan"])
 
 keluhan = st.text_area("Keluhan Utama")
 diagnosis = st.text_area("Diagnosis")
 terapi = st.text_area("Terapi")
-lab = st.text_area("Hasil Laboratorium")
 
-if st.button("Generate Resume"):
+# BUTTON
+if st.button("Generate AI Resume"):
 
-    hasil = f"""
-    Pasien {nama}, usia {umur} tahun,
-    dengan diagnosis {diagnosis}.
+    prompt = f"""
+    Buatkan resume medis profesional Bahasa Indonesia.
 
-    Keluhan utama:
+    Nama Pasien: {nama}
+    Umur: {umur}
+
+    Keluhan:
     {keluhan}
+
+    Diagnosis:
+    {diagnosis}
 
     Terapi:
     {terapi}
 
-    Hasil laboratorium:
-    {lab}
+    Format:
+    1. Diagnosis
+    2. Keluhan utama
+    3. Terapi
+    4. Kondisi pasien
     """
 
-    st.subheader("Resume Medis")
-    st.write(hasil)
+    response = model.generate_content(prompt)
+
+    st.subheader("Hasil Resume Medis")
+    st.write(response.text)
