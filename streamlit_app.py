@@ -1,51 +1,61 @@
 import streamlit as st
-import google.generativeai as genai
+from google import genai
 
-# API KEY (Sudah benar menggunakan st.secrets)
+# INBOARDS DATA / MODUL SECURITY (Streamlit Secrets)
+# SDK Baru otomatis membaca st.secrets["GEMINI_API_KEY"] di background jika namanya sesuai,
+# namun untuk memastikan tidak error, kita inisialisasi secara eksplisit:
 try:
-    genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
-except KeyError:
-    st.error("API Key 'GEMINI_API_KEY' tidak ditemukan di Secrets Streamlit!")
+    api_key = st.secrets["GEMINI_API_KEY"]
+    client = genai.Client(api_key=api_key)
+except Exception:
+    st.error("Waduh! Kunci 'GEMINI_API_KEY' tidak ditemukan di Secrets Streamlit kamu.")
+    st.stop()
 
-# MODEL (Diubah ke model terbaru yang aktif)
-# Kamu bisa pakai 'gemini-2.5-flash' atau 'gemini-1.5-flash'
-model = genai.GenerativeModel("gemini-1.5-flash")
+# TITLE & HEADER
+st.set_page_config(page_title="AI Resume Medis", page_icon="⚕️")
+st.title("⚕️ AI Resume Medis Profesional")
+st.write("Aplikasi ini otomatis menyusun resume medis standar berdasarkan input dokter/perawat.")
 
-# TITLE
-st.title("⚕️ AI Resume Medis")
-st.write("Isi data di bawah ini untuk membuat resume medis otomatis.")
+# INPUT DATA PASIEN
+nama = st.text_input("Nama Pasien", placeholder="Contoh: Budi Santoso")
+diagnosis = st.text_area("Diagnosis / Riwayat Penyakit", placeholder="Contoh: Diabetes Melitus Tipe 2, Hipertensi Stage 1")
+keluhan = st.text_area("Keluhan Saat Ini", placeholder="Contoh: Luka di kaki kanan tidak kunjung sembuh, pusing, dan lemas.")
 
-# INPUT
-nama = st.text_input("Nama Pasien")
-diagnosis = st.text_area("Diagnosis / Riwayat Penyakit")
-keluhan = st.text_area("Keluhan Saat Ini")
-
-# BUTTON
-if st.button("Generate AI Resume"):
-    # Validasi: Memastikan user sudah mengisi semua kolom sebelum menembak API
-    if nama and diagnosis and keluhan:
-        with st.spinner("Sedang meracik resume medis..."):
+# BUTTON GENERATE
+if st.button("Generate AI Resume", type="primary"):
+    # Cek apakah input kosong
+    if not nama or not diagnosis or not keluhan:
+        st.warning("Mohon lengkapi data Nama, Diagnosis, dan Keluhan pasien terlebih dahulu!")
+    else:
+        with st.spinner("Gemini sedang menyusun resume medis profesional..."):
             try:
+                # Membuat prompt yang mengarahkan AI agar berformat medis resmi
                 prompt = f"""
-                Buatkan resume medis profesional dalam Bahasa Indonesia yang rapi.
-                 Gunakan format medis yang standar (seperti subjektif, objektif, asesmen).
+                Bertindaklah sebagai Dokter Spesialis Senior. Buatkan resume medis profesional, formal, 
+                dan terstruktur dalam Bahasa Indonesia yang baik dan benar.
 
-                Nama pasien: {nama}
+                Format resume harus mencakup:
+                1. Identitas Pasien (Nama)
+                2. Keluhan Utama (Subjective)
+                3. Diagnosis & Riwayat (Assessment)
+                4. Rekomendasi Rencana Tindakan / Edukasi Pasien (Plan)
 
-                Diagnosis:
-                {diagnosis}
-
-                Keluhan:
-                {keluhan}
+                Data Pasien:
+                - Nama Pasien: {nama}
+                - Diagnosis: {diagnosis}
+                - Keluhan saat ini: {keluhan}
                 """
 
-                response = model.generate_content(prompt)
+                # Memanggil MODEL TERBARU yang aktif saat ini: gemini-2.5-flash
+                response = client.models.generate_content(
+                    model='gemini-2.5-flash',
+                    contents=prompt,
+                )
 
-                st.success("Resume berhasil dibuat!")
-                st.subheader("Hasil Resume Medis")
-                st.markdown(response.text) # Menggunakan st.markdown agar format teks dari Gemini (seperti bold/bullet) muncul dengan rapi
+                # Menampilkan Hasil
+                st.success("Resume Medis Berhasil Dibuat!")
+                st.subheader("📋 Hasil Resume Medis")
+                st.markdown(response.text) # Menggunakan markdown agar bullet point & text bold rapi
                 
             except Exception as e:
-                st.error(f"Terjadi kesalahan saat menghubungi Gemini: {e}")
-    else:
-        st.warning("Mohon lengkapi semua data (Nama, Diagnosis, dan Keluhan) terlebih dahulu!")
+                st.error(f"Gagal menghubungi server Gemini: {e}")
