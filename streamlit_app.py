@@ -1,9 +1,31 @@
 import streamlit as st
 
-st.title("AI Resume Medis")
+st.title("Automatic Resume Medis")
 
 nama = st.text_input("Nama Pasien")
-diagnosis = st.text_area("Diagnosis")
+umur = st.number_input("Umur", 0, 120)
+jk = st.selectbox("Jenis Kelamin", ["Laki-laki", "Perempuan"])
 
-if st.button("Generate"):
-    st.write(f"Pasien {nama} dengan diagnosis {diagnosis}")
+keluhan = st.text_area("Keluhan Utama")
+diagnosis = st.text_area("Diagnosis")
+terapi = st.text_area("Terapi")
+lab = st.text_area("Hasil Laboratorium")
+
+if st.button("Generate Resume"):
+
+    hasil = f"""
+    Pasien {nama}, usia {umur} tahun,
+    dengan diagnosis {diagnosis}.
+
+    Keluhan utama:
+    {keluhan}
+
+    Terapi:
+    {terapi}
+
+    Hasil laboratorium:
+    {lab}
+    """
+
+    st.subheader("Resume Medis")
+    st.write(hasil)
