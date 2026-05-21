@@ -5,17 +5,15 @@ import google.generativeai as genai
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 
 # MODEL
-model = genai.GenerativeModel("gemini-1.5-flash")
+model = genai.GenerativeModel("models/gemini-1.5-flash")
 
-# UI
+# TITLE
 st.title("AI Resume Medis")
 
+# INPUT
 nama = st.text_input("Nama Pasien")
-umur = st.number_input("Umur", 0, 120)
-
-keluhan = st.text_area("Keluhan Utama")
 diagnosis = st.text_area("Diagnosis")
-terapi = st.text_area("Terapi")
+keluhan = st.text_area("Keluhan")
 
 # BUTTON
 if st.button("Generate AI Resume"):
@@ -23,26 +21,16 @@ if st.button("Generate AI Resume"):
     prompt = f"""
     Buatkan resume medis profesional Bahasa Indonesia.
 
-    Nama Pasien: {nama}
-    Umur: {umur}
-
-    Keluhan:
-    {keluhan}
+    Nama pasien: {nama}
 
     Diagnosis:
     {diagnosis}
 
-    Terapi:
-    {terapi}
-
-    Format:
-    1. Diagnosis
-    2. Keluhan utama
-    3. Terapi
-    4. Kondisi pasien
+    Keluhan:
+    {keluhan}
     """
 
     response = model.generate_content(prompt)
 
-    st.subheader("Hasil Resume Medis")
+    st.subheader("Hasil Resume")
     st.write(response.text)
