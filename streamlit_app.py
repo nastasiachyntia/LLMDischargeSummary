@@ -5,7 +5,7 @@ import google.generativeai as genai
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 
 # MODEL
-model = genai.GenerativeModel("models/gemini-1.5-flash")
+model = genai.GenerativeModel("gemini-pro")
 
 # TITLE
 st.title("AI Resume Medis")
