@@ -26,7 +26,7 @@ diagnosis = st.text_area("Diagnosis / Riwayat Penyakit", placeholder="Contoh: Di
 if st.button("Generate AI Resume", type="primary"):
     # Cek apakah input kosong
     if not nama or not diagnosis or not keluhan:
-        st.warning("Mohon lengkapi data Nama, Diagnosis, dan Keluhan pasien terlebih dahulu!")
+        st.warning("Mohon lengkapi data Nama, Umur, Diagnosis, dan Keluhan pasien terlebih dahulu!")
     else:
         with st.spinner("Gemini sedang menyusun resume medis profesional..."):
             try:
@@ -44,6 +44,7 @@ if st.button("Generate AI Resume", type="primary"):
                 Data Pasien:
                 - Nama Pasien: {nama}
                 - Diagnosis: {diagnosis}
+                - Umur: {umur}
                 - Keluhan saat ini: {keluhan}
                 """
 
