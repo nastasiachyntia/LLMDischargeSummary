@@ -18,8 +18,8 @@ st.write("Aplikasi ini otomatis menyusun resume medis standar berdasarkan input 
 
 # INPUT DATA PASIEN
 nama = st.text_input("Nama Pasien", placeholder="Contoh: Budi Santoso")
-diagnosis = st.text_area("Diagnosis / Riwayat Penyakit", placeholder="Contoh: Diabetes Melitus Tipe 2, Hipertensi Stage 1")
 keluhan = st.text_area("Keluhan Saat Ini", placeholder="Contoh: Luka di kaki kanan tidak kunjung sembuh, pusing, dan lemas.")
+diagnosis = st.text_area("Diagnosis / Riwayat Penyakit", placeholder="Contoh: Diabetes Melitus Tipe 2, Hipertensi Stage 1")
 
 # BUTTON GENERATE
 if st.button("Generate AI Resume", type="primary"):
