@@ -116,8 +116,8 @@ FORMAT OUTPUT YANG WAJIB DIHASILKAN (Gunakan Markdown):
 * Edukasi Pasien (Tanda Bahaya Spesifik): (Berikan instruksi tanda bahaya darurat/red flags yang *hanya* relevan dengan diagnosis yang diinput di atas untuk segera ke IGD).
 
 ---
-**LEMBAR PENGESAHAN SERAH TERIMA INFORMASI**
-[ Slot Tanda Tangan DPJP ]                     [ Slot Tanda Tangan Pasien/Keluarga ]
+**Jakarta, **
+[ TTD Dokter ]                     [  Tanda Tangan Pasien/Keluarga ]
 """
 
                 response = client.models.generate_content(
