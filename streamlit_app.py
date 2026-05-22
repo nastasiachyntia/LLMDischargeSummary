@@ -40,6 +40,16 @@ if st.button("Generate AI Resume", type="primary"):
                 2. Keluhan Utama (Subjective)
                 3. Diagnosis & Riwayat (Assessment)
                 4. Rekomendasi Rencana Tindakan / Edukasi Pasien (Plan)
+                5. Pada bagian akhir resume,
+                        buat area tanda tangan DPJP dengan format:
+                        
+                        Mengetahui,
+                        Dokter Penanggung Jawab Pelayanan (DPJP)
+                        
+                        Nama Dokter: dr. __________
+                        SIP: __________
+                        TTD:
+
 
                 Data Pasien:
                 - Nama Pasien: {nama}
