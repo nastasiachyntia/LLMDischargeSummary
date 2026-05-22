@@ -13,8 +13,8 @@ except Exception:
 
 # TITLE & HEADER
 st.set_page_config(page_title="AI Resume Medis", page_icon="⚕️")
-st.title("⚕️ AI Resume Medis Profesional")
-st.write("Aplikasi ini otomatis menyusun resume medis standar berdasarkan input dokter/perawat.")
+st.title("⚕️ AI Resume Medis TESTINGGGGGGG ")
+st.write("Aplikasiini otomatis menyusun resume medis standar berdasarkan input dokter dengan data  gemini open AI.")
 
 # INPUT DATA PASIEN
 nama = st.text_input("Nama Pasien", placeholder="Contoh: Budi Santoso")
