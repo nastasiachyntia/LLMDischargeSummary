@@ -22,6 +22,7 @@ umur = st.number_input("Umur Pasien", min_value=0, max_value=120, step=1)
 keluhan = st.text_area("Keluhan Saat Ini", placeholder="Contoh: Luka di kaki kanan tidak kunjung sembuh, pusing, dan lemas.")
 diagnosis = st.text_area("Diagnosis / Riwayat Penyakit", placeholder="Contoh: Diabetes Melitus Tipe 2, Hipertensi Stage 1")
 
+
 # BUTTON GENERATE
 if st.button("Generate AI Resume", type="primary"):
     # Cek apakah input kosong
@@ -31,31 +32,46 @@ if st.button("Generate AI Resume", type="primary"):
         with st.spinner("Gemini sedang menyusun resume medis profesional..."):
             try:
                 # Membuat prompt yang mengarahkan AI agar berformat medis resmi
-                prompt = f"""
-                Bertindaklah sebagai Dokter Spesialis Senior. Buatkan resume medis profesional, formal, 
-                dan terstruktur dalam Bahasa Indonesia yang baik dan benar.
-
+               prompt = f"""
+                Buatkan resume medis profesional, formal,
+                dan terstruktur dalam Bahasa Indonesia.
+                
+                Gunakan HANYA data yang diberikan.
+                Jangan menambahkan:
+                - diagnosis baru
+                - terapi baru
+                - hasil laboratorium
+                - rekomendasi tambahan
+                - asumsi klinis
+                
+                Jika data tidak tersedia,
+                tuliskan: "Tidak ada data."
+                
                 Format resume harus mencakup:
-                1. Identitas Pasien (Nama)
+                
+                1. Identitas Pasien
                 2. Keluhan Utama (Subjective)
                 3. Diagnosis & Riwayat (Assessment)
-                4. Rekomendasi Rencana Tindakan / Edukasi Pasien (Plan)
-                5. Pada bagian akhir resume,
-                        buat area tanda tangan DPJP dengan format:
-                        
-                        Mengetahui,
-                        Dokter Penanggung Jawab Pelayanan (DPJP)
-                        
-                        Nama Dokter: dr. __________
-                        SIP: __________
-                        TTD:
-
+                4. Terapi / Obat
+                5. Rencana Tindakan
+                6. Edukasi Pasien (Plan)
+                
+                Pada bagian akhir resume,
+                buat area tanda tangan DPJP dengan format:
+                
+                Mengetahui,
+                Dokter Penanggung Jawab Pelayanan (DPJP)
+                
+                Nama Dokter: dr. __________
+                SIP: __________
+                TTD:
 
                 Data Pasien:
                 - Nama Pasien: {nama}
-                - Diagnosis: {diagnosis}
                 - Umur: {umur}
                 - Keluhan saat ini: {keluhan}
+                - Diagnosis: {diagnosis}
+                - Terapi: {terapi}
                 """
 
                 # Memanggil MODEL TERBARU yang aktif saat ini: gemini-2.5-flash
