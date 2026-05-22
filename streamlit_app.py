@@ -18,6 +18,7 @@ st.write("Aplikasi ini otomatis menyusun resume medis standar berdasarkan input 
 
 # INPUT DATA PASIEN
 nama = st.text_input("Nama Pasien", placeholder="Contoh: Budi Santoso")
+umur = st.number_input("Umur Pasien", min_value=0, max_value=120, step=1)
 keluhan = st.text_area("Keluhan Saat Ini", placeholder="Contoh: Luka di kaki kanan tidak kunjung sembuh, pusing, dan lemas.")
 diagnosis = st.text_area("Diagnosis / Riwayat Penyakit", placeholder="Contoh: Diabetes Melitus Tipe 2, Hipertensi Stage 1")
 
