@@ -82,6 +82,37 @@ if st.button("Generate AI Resume", type="primary"):
             try:
 
                 # =========================
-                # PROMPT LLM
+                # PROMPT LLM (Sudah Diperbaiki & Ditutup)
                 # =========================
-                prompt = f"""
+                prompt = f"""Bertindaklah sebagai Dokter Spesialis Senior. Buatkan resume medis profesional, formal, dan terstruktur dalam Bahasa Indonesia yang baik dan benar.
+
+Format resume harus mencakup:
+1. Ringkasan Identitas Pasien (Nama, Umur)
+2. Keluhan Utama Pasien (Subjective)
+3. Hasil Evaluasi & Riwayat Penyakit (Assessment)
+4. Rencana Terapi saat ini & Edukasi Tambahan (Plan)
+
+Data Pasien:
+- Nama Pasien: {nama}
+- Umur Pasien: {umur} tahun
+- Keluhan saat ini: {keluhan}
+- Diagnosis / Riwayat: {diagnosis}
+- Terapi / Obat saat ini: {terapi if terapi else 'Tidak ada obat sebelumnya'}"""
+
+                # =========================
+                # PANGGIL API GEMINI
+                # =========================
+                response = client.models.generate_content(
+                    model='gemini-2.5-flash',
+                    contents=prompt,
+                )
+
+                # =========================
+                # TAMPILKAN HASIL
+                # =========================
+                st.success("Resume Medis Berhasil Dibuat!")
+                st.subheader("📋 Hasil Resume Medis Resmi")
+                st.markdown(response.text)
+
+            except Exception as e:
+                st.error(f"Gagal menghubungi server Gemini: {e}")
